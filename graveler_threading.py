@@ -1,13 +1,17 @@
 import random
+from threading import Thread
 from time import time
 
 tStart = time()
+threads = []
 
+maxOnes = []
 rolls = 1000000000
 items = [1, 2, 3, 4]
 
 
 def sample():
+    global maxOnes
     ones = 0
 
     for i in range(231):
@@ -16,10 +20,16 @@ def sample():
         if roll == 1:
             ones += 1
 
-    return ones
+    maxOnes.append(ones)
 
 
-maxOnes = [sample() for i in range(rolls)]
+for i in range(rolls):
+    t = Thread(target=sample)
+    threads.append(t)
+    t.start()
+
+while threads:
+    threads = [t for t in threads if t.is_alive()]
 
 tEnd = time()
 
