@@ -1,30 +1,49 @@
-import random
+import numpy as np
 from time import time
+from sys import exit
 
 tStart = time()
 
 rolls = 1000000000
-items = [1, 2, 3, 4]
+sampleSize = 1000000
+
+
+class TargetReached(Exception):
+    def __init__(self, maxOnesList):
+        global tStart
+        global rolls
+        global sampleSize
+
+        tEnd = time()
+
+        tElapsed = tEnd - tStart
+
+        print(f"Highest Ones Roll: {max(maxOnesList)}")
+        print(f"Number of Roll Sessions: {sample.counter * sampleSize}")
+        print(f"Runtime: {tElapsed:.6f} s")
 
 
 def sample():
-    ones = 0
+    roll = np.random.randint(1, 5, size=(sampleSize, 231))
+    ones = (roll == 1).sum(axis=1)
+    sampleMaxOnes = max(ones)
 
-    for i in range(231):
-        roll = random.choice(items)
+    sample.counter += 1
 
-        if roll == 1:
-            ones += 1
+    if sampleMaxOnes >= 177:
+        try:
+            raise TargetReached(maxOnesList=[sampleMaxOnes])
+        except TargetReached:
+            exit()
 
-    return ones
+    return sampleMaxOnes
 
 
-maxOnes = [sample() for i in range(rolls)]
+sample.counter = 0
 
-tEnd = time()
+maxOnes = [sample() for i in range(rolls // sampleSize)]
 
-tElapsed = tEnd - tStart
-
-print(f"Highest Ones Roll: {max(maxOnes)}")
-print(f"Number of Roll Sessions: {rolls}")
-print(f"Runtime: {tElapsed:.3f} s")
+try:
+    raise TargetReached(maxOnesList=maxOnes)
+except TargetReached:
+    exit()

@@ -10,6 +10,7 @@ int main()
     int ones;
 
     int rolls = 1000000000;
+    int numRolls = 0;
     int maxOnes = 0;
 
     srand(time(NULL));
@@ -17,6 +18,7 @@ int main()
     for (int i = 0; i < rolls; i++)
     {
         ones = 0;
+        numRolls++;
 
         for (int j = 0; j < 231; j++)
         {
@@ -32,6 +34,11 @@ int main()
         {
             maxOnes = ones;
         }
+
+        if (maxOnes >= 177)
+        {
+            break;
+        }
     }
 
     clock_t tEnd = clock();
@@ -39,6 +46,6 @@ int main()
     double tElapsed = (tEnd - tStart) / 1000.0;
 
     printf("Highest Ones Roll: %d\n", maxOnes);
-    printf("Number of Roll Sessions: %d\n", rolls);
-    printf("Runtime: %.3f s\n", tElapsed);
+    printf("Number of Roll Sessions: %d\n", numRolls);
+    printf("Runtime: %.6f s\n", tElapsed);
 }
