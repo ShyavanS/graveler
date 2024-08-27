@@ -40,7 +40,6 @@ class TargetReached(Exception):
     def __init__(self, maxOnesList):
         # Use global variables
         global tStart
-        global rolls
         global sampleSize
 
         tEnd = time()  # End time to measure time elapsed
@@ -64,6 +63,9 @@ Returns:
     void
 """
 def sample():
+    # Use global variables
+    global sampleSize
+    
     # Roll 4-sided die 231 times for number of samples
     roll = np.random.randint(1, 5, size=(sampleSize, 231))
     ones = (roll == 1).sum(axis=1)  # Sum number of ones rolls

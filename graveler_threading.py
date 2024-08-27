@@ -47,7 +47,6 @@ class TargetReached(Exception):
     def __init__(self):
         # Use global variables
         global tStart
-        global rolls
         global sampleSize
         global maxOnes
 
@@ -76,6 +75,7 @@ def sample():
     # Use global variables
     global maxOnes
     global lock
+    global sampleSize
 
     # Roll 4-sided die 231 times for number of samples
     roll = np.random.randint(1, 5, size=(sampleSize, 231))
